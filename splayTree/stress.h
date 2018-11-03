@@ -1,4 +1,4 @@
-#define Stress
+#define RANDOM
 
 void stress() {
     splay_tree<long long> tree;
@@ -7,17 +7,30 @@ void stress() {
     ofstream a("stressOut.txt");
     ofstream b("stressIn.txt");
 
+    ifstream c("in.txt");
+
 
     string s;
     set <int> check;
 
     while (true) {
+        int command;
+        int x;
+#ifdef RANDOM
+        command = rand() % 3 - 1;
+        x = (rand() - 16000) % 100;
 
-        int command = rand() % 5;
-        int x = (rand() - 16000) % 100;
+#else
+        c >> s >> x;
+        if (s == "insert") command = 0;
+        else if (s == "exists") command = 1;
+        else if (s == "delete") command = 2;
+        else command = -1;
 
+
+#endif
         //cin >> x;
-        if (command == 0 /*s == "insert"*/) {
+        if (command == 1 /*s == "insert"*/) {
             b << "insert " << x << '\n';
             cerr << "insert " << x << '\n';
 
@@ -25,24 +38,15 @@ void stress() {
             check.insert(x);
         }
 
-        else if (command == 1/*s == "exists"*/) {
-            cerr << "exists " << x << '\n';
-            b << "exists " << x << '\n';
+        else if (command == 0/*s == "exists"*/) {
+            cerr << "order " << x << '\n';
+            b << "order " << x << '\n';
 
-            if (tree.exists(x)) {
-                if (check.find(x) == check.end()) system("pause");
-                else {
-                    a << "true\n";
-                    cout << "true\n";
-                }
-            }
-            else {
-                if (check.find(x) != check.end()) system("pause");
-                a << "false\n";
-                cout << "false\n";
-            }
+            auto res = tree.find_by_order((tree.root->size - x + 1) % 15, tree.root);
+            if (res != nullptr)
+                cout << res->key << '\n';
         }
-        else if (command == 2/*s == "delete"*/) {
+        else if (command == -1/*s == "delete"*/) {
             cerr << "delete " << x << '\n';
             b << "delete " << x << '\n';
             tree.erase(x);
@@ -114,7 +118,10 @@ void stress() {
         //    }
         //}
 
-
+        if (check.size() != tree.get_size(tree.root)) {
+            cerr << "Sizes do not match\n";
+            system("pause");
+        }
         cerr << '\n';
         a << '\n';
         b << '\n';

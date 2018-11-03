@@ -32,8 +32,9 @@ struct Node {
     Node<T>* parent;
     Node<T>* next;
     Node<T>* prev;
-    size_t size;
     T key;
+
+    size_t size;
 
     Node() {
         left = nullptr;
@@ -41,7 +42,7 @@ struct Node {
         parent = nullptr;
         next = nullptr;
         prev = nullptr;
-        size = 0;
+        size = 1;
     }
     Node(const T& a) : Node() {
         key = a;
@@ -56,10 +57,21 @@ struct splay_tree {
         root = nullptr;
     }
 
+    size_t get_size(Node<T>* cur) {
+        return (cur == nullptr) ? 0 : cur->size;
+    }
+
+    void fix_size(Node<T>* cur) {
+        if (cur != nullptr) {
+            cur->size = 1 + get_size(cur->left) + get_size(cur->right);
+        }
+    }
+
 
     void zig(Node<T>* cur) {
         if (cur == nullptr) return;
         if (cur->parent == nullptr) {
+            fix_size(cur);
             return;
         }
         if (cur->parent->parent) {
@@ -98,12 +110,17 @@ struct splay_tree {
         if (cur->parent == nullptr) {
             root = cur;
         }
+
+        fix_size(cur->left);
+        fix_size(cur->right);
+        fix_size(cur);
     }
 
 
     void splay(Node<T>* cur) {
         if (cur == nullptr) return;
         if (cur->parent == nullptr) {
+            fix_size(cur);
             root = cur;
             return;
         }
@@ -241,6 +258,8 @@ struct splay_tree {
             p.first->parent = nullptr;
 
         join(p.first, p.second);
+
+        fix_size(root);
     }
 
     bool exists(const T& key) {
@@ -299,10 +318,26 @@ struct splay_tree {
 
         return ans;
     }
+
+    Node<T>* find_by_order(size_t order, Node<T>* cur) {
+
+        if (cur == nullptr || order > cur->size) return nullptr;
+
+        if (get_size(cur->left) + 1 == order) return cur;
+        if (order <= get_size(cur->left)) {
+            return find_by_order(order, cur->left);
+        }
+        else {
+            return find_by_order(order - get_size(cur->left) - 1, cur->right);
+        }
+    }
 };
 
 
+//#define STRESS
+#ifdef STRESS
 #include "stress.h"
+#endif
 
 int32_t main() {
     ios::sync_with_stdio(0);
@@ -312,47 +347,27 @@ int32_t main() {
 
     splay_tree<int> tree;
 
-#ifdef Stress
+#ifdef STRESS
     stress();
 #endif
-    string s;
+
+    int n;
+    cin >> n;
 
 
-    while (cin >> s) {
-
-        int x;
-        cin >> x;
-        if (s == "insert") {
+    while (n--) {
+        int com, x;
+        cin >> com >> x;
+        if (com == 1) {
             tree.insert(x);
         }
-
-        else if (s == "exists") {
-            if (tree.exists(x)) {
-                cout << "true\n";
-            }
-            else cout << "false\n";
+        else if (com == 0) {
+            auto res = tree.find_by_order(tree.root->size - x + 1, tree.root);
+            cout << res->key << '\n';
         }
-        else if (s == "delete") {
+        else if (com == -1) {
             tree.erase(x);
         }
-        else if (s == "next") {
-            Node<int>* res = tree.next(x);
-
-            if (res == nullptr)
-                cout << "none" << '\n';
-            else
-                cout << res->key << '\n';
-
-        }
-        else if (s == "prev") {
-            Node<int>* res = tree.prev(x);
-
-            if (res == nullptr)
-                cout << "none" << '\n';
-            else
-                cout << res->key << '\n';
-        }
-
     }
 
     return 0;

@@ -24,4 +24,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Xsd Include="in.txt">
+      <Filter>Файлы заголовков</Filter>
+    </Xsd>
+  </ItemGroup>
 </Project>
