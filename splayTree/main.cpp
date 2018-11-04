@@ -195,7 +195,6 @@ struct splay_tree {
     }
 
     pair <Node<T>*, Node<T>*> split(const T& key) {
-        if (root == nullptr) return { nullptr, nullptr };
 
         Node<T>* res = find_node(key);
 
@@ -207,9 +206,10 @@ struct splay_tree {
 
         Node<T>* R = root->right;
         root->right = nullptr;
-        if (root->right != nullptr)
+        if (R != nullptr)
             R->parent = nullptr;
 
+        fix_size(root);
         return { root, R };
     }
 
@@ -228,7 +228,7 @@ struct splay_tree {
             root = R;
             R->parent = nullptr;
         }
-
+        fix_size(root);
     }
 
     void erase(const T& key) {
@@ -259,7 +259,6 @@ struct splay_tree {
 
         join(p.first, p.second);
 
-        fix_size(root);
     }
 
     bool exists(const T& key) {
@@ -321,9 +320,7 @@ struct splay_tree {
 
     Node<T>* find_by_order(size_t order, Node<T>* cur) {
 
-        if (cur == nullptr || order > cur->size) return nullptr;
-
-        if (get_size(cur->left) + 1 == order) return cur;
+        if (order == get_size(cur->left) + 1) return cur;
         if (order <= get_size(cur->left)) {
             return find_by_order(order, cur->left);
         }
@@ -331,6 +328,7 @@ struct splay_tree {
             return find_by_order(order - get_size(cur->left) - 1, cur->right);
         }
     }
+
 };
 
 
