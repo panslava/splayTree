@@ -119,6 +119,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="splay.h" />
     <ClInclude Include="stress.h" />
   </ItemGroup>
   <ItemGroup>

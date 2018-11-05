@@ -23,6 +23,9 @@
     <ClInclude Include="stress.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="splay.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xsd Include="in.txt">

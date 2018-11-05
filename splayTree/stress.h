@@ -39,10 +39,12 @@ void stress() {
         }
 
         else if (command == 0/*s == "exists"*/) {
+            x = rand() % tree.root->size + 1;
             cerr << "order " << x << '\n';
             b << "order " << x << '\n';
 
-            auto res = tree.find_by_order((tree.root->size - x + 1) % 15, tree.root);
+
+            auto res = tree.find_by_order(x, tree.root);
             if (res != nullptr)
                 cout << res->key << '\n';
         }
