@@ -29,7 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Xsd Include="in.txt">
-      <Filter>Файлы заголовков</Filter>
+      <Filter>Файлы ресурсов</Filter>
     </Xsd>
   </ItemGroup>
 </Project>

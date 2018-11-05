@@ -145,6 +145,16 @@ struct splay_tree {
         return ans;
     }
 
+    Node<T>* find_by_order(size_t order) {
+        return find_by_order(order, root);
+    }
+
+    size_t size() {
+        return size(root);
+    }
+
+private:
+
     Node<T>* find_by_order(size_t order, Node<T>* cur) {
 
         if (order == size(cur->left) + 1) return cur;
@@ -155,12 +165,6 @@ struct splay_tree {
             return find_by_order(order - size(cur->left) - 1, cur->right);
         }
     }
-
-    size_t size() {
-        return size(root);
-    }
-
-private:
 
     size_t size(Node<T>* cur) {
         return (cur == nullptr) ? 0 : cur->size;

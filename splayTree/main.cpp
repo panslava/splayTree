@@ -11,9 +11,9 @@
 using namespace std;
 
 
-#define STRESS
+//#define STRESS
 #ifdef STRESS
-#include "stress.h"
+#include "stressTest.h"
 #endif
 
 int32_t main() {
@@ -24,24 +24,52 @@ int32_t main() {
     splay_tree<int> tree;
 
 #ifdef STRESS
-    stress();
+    stressTest();
 #endif
+    
+    string s;
 
-    int n;
-    cin >> n;
+    while (cin >> s) {
 
-    int com, x;
-    while (cin >> com) {
+        int x;
         cin >> x;
-        if (com == 1) {
+        if (s == "insert") {
             tree.insert(x);
         }
-        else if (com == 0) {
-            auto res = tree.find_by_order(tree.root->size - x + 1, tree.root);
-            cout << res->key << '\n';
+
+        else if (s == "exists") {
+            if (tree.exists(x)) {
+                cout << "true\n";
+            }
+            else cout << "false\n";
         }
-        else if (com == -1) {
+        else if (s == "delete") {
             tree.erase(x);
+        }
+        else if (s == "next") {
+            Node<int>* res = tree.next(x);
+
+            if (res == nullptr)
+                cout << "none" << '\n';
+            else
+                cout << res->key << '\n';
+
+        }
+        else if (s == "prev") {
+            Node<int>* res = tree.prev(x);
+
+            if (res == nullptr)
+                cout << "none" << '\n';
+            else
+                cout << res->key << '\n';
+        }
+        else if (s == "order") {
+            Node<int>* res = tree.find_by_order(x);
+
+            if (res == nullptr)
+                cout << "none" << '\n';
+            else
+                cout << res->key << '\n';
         }
     }
 
