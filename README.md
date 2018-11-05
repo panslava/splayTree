@@ -9,7 +9,8 @@ Operations:
  - *exists (key)*. Returns true if Node with argument key exists in tree. Else returns false
  - *next (key)*. Returns minimum Node with key > argument key. If no such Node &mdash; returns nullptr
  - *prev (key)*. Returns maximum Node with key < argument key. If no such Node &mdash; returns nullptr
- - *find_by_order (order)*. Returns Node by input order. If order > size of tree &mdash; return nullptr
+ - *find_by_order (order)*. Returns Node by order. If order > size of tree &mdash; return nullptr
+ - *find_by_key (key)*. Finds and returns Node by key. If Node with such key doesn't exists &mdash; returns nullptr
  - *size()*. Returns size of the tree
  
  All operations complexity: **O(log n)**. Size operation complexity: **O(1)**
