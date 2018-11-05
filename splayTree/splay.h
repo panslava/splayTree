@@ -22,6 +22,7 @@ struct Node {
     Node(const T& a) : Node() {
         key = a;
     }
+
 };
 
 template <typename T>
@@ -146,25 +147,28 @@ struct splay_tree {
 
     Node<T>* find_by_order(size_t order, Node<T>* cur) {
 
-        if (order == get_size(cur->left) + 1) return cur;
-        if (order <= get_size(cur->left)) {
+        if (order == size(cur->left) + 1) return cur;
+        if (order <= size(cur->left)) {
             return find_by_order(order, cur->left);
         }
         else {
-            return find_by_order(order - get_size(cur->left) - 1, cur->right);
+            return find_by_order(order - size(cur->left) - 1, cur->right);
         }
     }
 
+    size_t size() {
+        return size(root);
+    }
 
 private:
 
-    size_t get_size(Node<T>* cur) {
+    size_t size(Node<T>* cur) {
         return (cur == nullptr) ? 0 : cur->size;
     }
 
     void fix_size(Node<T>* cur) {
         if (cur != nullptr) {
-            cur->size = 1 + get_size(cur->left) + get_size(cur->right);
+            cur->size = 1 + size(cur->left) + size(cur->right);
         }
     }
 
