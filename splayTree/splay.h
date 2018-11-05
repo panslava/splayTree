@@ -43,7 +43,7 @@ struct splay_tree {
             return;
         }
 
-        Node<T>* res = find_by_key(key);
+        Node<T>* res = find(key);
 
         if (res->key == key) return;
         if (key > res->key) {
@@ -76,7 +76,7 @@ struct splay_tree {
     }
 
     void erase(const T& key) {
-        Node<T>* res = find_by_key(key);
+        Node<T>* res = find(key);
 
         if (res == nullptr || res->key != key) return;
 
@@ -101,7 +101,7 @@ struct splay_tree {
     }
 
     bool exists(const T& key) {
-        Node<T>* res = find_by_key(key);
+        Node<T>* res = find(key);
 
         if (res == nullptr || res->key != key)
             return 0;
@@ -110,7 +110,7 @@ struct splay_tree {
     }
 
     Node<T>* next(const T& key) {
-        Node<T>* res = find_by_key(key);
+        Node<T>* res = find(key);
 
         if (res == nullptr)
             return nullptr;
@@ -128,7 +128,7 @@ struct splay_tree {
     }
 
     Node<T>* prev(const T& key) {
-        Node<T>* res = find_by_key(key);
+        Node<T>* res = find(key);
 
         if (res == nullptr)
             return nullptr;
@@ -146,12 +146,22 @@ struct splay_tree {
     }
 
     Node<T>* find_by_order(size_t order) {
+        if (order > size()) return nullptr;
         return find_by_order(order, root);
+    }
+
+    Node<T>* find_by_key(const T& key) {
+        Node<T>* res = find(key);
+
+        if (res->key != key) return nullptr;
+        else return res;
     }
 
     size_t size() {
         return size(root);
     }
+
+
 
 private:
 
@@ -176,7 +186,7 @@ private:
         }
     }
 
-    Node<T>* find_by_key(const T& key) {
+    Node<T>* find(const T& key) {
         if (root == nullptr) return nullptr;
 
         Node<T>* cur = root;
@@ -264,7 +274,7 @@ private:
 
     splay_tree<T>* split(const T& key) {
 
-        Node<T>* res = find_by_key(key);
+        Node<T>* res = find(key);
 
         if (res == nullptr) return nullptr;
 

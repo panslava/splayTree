@@ -1,6 +1,6 @@
 #define RANDOM
 
-void stress() {
+void stressTest() {
     srand(time(0));
 
     splay_tree<long long> tree;
@@ -20,7 +20,7 @@ void stress() {
         int x;
 #ifdef RANDOM
         command = rand() % 6;
-        x = (rand() - 16000) % 100;
+        x = rand() % 200 - 100;
 
 #else
         c >> s >> x;
@@ -43,6 +43,7 @@ void stress() {
         else if (command == 1/*s == "delete"*/) {
             cerr << "delete " << x << '\n';
             b << "delete " << x << '\n';
+
             tree.erase(x);
             check.erase(x);
         }
