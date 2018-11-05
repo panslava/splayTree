@@ -1,26 +1,9 @@
-#include <stdio.h>
-#include <cstdio>
-#include <cstdlib>
 #include <iostream>
-#include <sstream>
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
-//#include <windows.h>
-#include <math.h>
 #include <algorithm>
-#include <bitset>
-#include <climits>
 #include <ctime>
 #include <fstream>
-#include <functional>
-#include <iomanip>
-#include <locale>
-#include <map>
-#include <queue>
-#include <random>
 #include <set>
-#include <stack>
 #include <vector>
 
 #include "splay.h"
@@ -28,7 +11,7 @@
 using namespace std;
 
 
-//#define STRESS
+#define STRESS
 #ifdef STRESS
 #include "stress.h"
 #endif
@@ -36,7 +19,6 @@ using namespace std;
 int32_t main() {
     ios::sync_with_stdio(0);
     cin.tie(0);
-    //srand(time(0));
 
 
     splay_tree<int> tree;
@@ -65,10 +47,3 @@ int32_t main() {
 
     return 0;
 }
-
-/*
-30
-+1 10
-0 1
--1 10
-*/
