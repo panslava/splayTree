@@ -19,10 +19,12 @@ struct Node {
         prev = nullptr;
         size = 1;
     }
+    
     Node(const T& a) : Node() {
         key = a;
     }
 
+    Node(const Node& b) = delete;
 };
 
 template <typename T>
@@ -35,6 +37,24 @@ struct splay_tree {
 
     splay_tree(Node<T>* root) {
         this->root = root;
+    }
+
+    splay_tree(const splay_tree& b) = delete;
+
+    ~splay_tree() {
+        dealoc(root);
+    }
+
+    void dealoc(Node<T>* cur) {
+        if (cur == nullptr) return;
+        if (cur->left == nullptr && cur->right == nullptr) {
+            delete cur;
+            return;
+        }
+
+        dealoc(cur->left);
+        dealoc(cur->right);
+        delete cur;
     }
 
     void insert(const T& key) {
@@ -310,6 +330,7 @@ private:
         }
         fix_size(root);
 
+        R->root = nullptr;
         delete R;
     }
 

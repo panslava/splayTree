@@ -3,7 +3,7 @@
 void stressTest() {
     srand(time(0));
 
-    splay_tree<long long> tree;
+    splay_tree <long long> tree;
 
 
     ofstream a("stressOut.txt");

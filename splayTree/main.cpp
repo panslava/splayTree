@@ -11,7 +11,7 @@
 using namespace std;
 
 
-//#define STRESS
+#define STRESS
 #ifdef STRESS
 #include "stressTest.h"
 #endif
