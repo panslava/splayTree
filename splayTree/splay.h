@@ -35,7 +35,7 @@ struct splay_tree {
         root = nullptr;
     }
 
-    splay_tree(Node<T>* root) explicit {
+    explicit splay_tree(Node<T>* root) {
         this->root = root;
     }
 
